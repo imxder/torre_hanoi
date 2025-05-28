@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Solução para {{ disks }} Discos</h2>
+<p>Movendo da Torre <strong>{{ start }}</strong> para a Torre <strong>{{ end }}</strong>.</p>
+
+<div id="hanoi-visual-container">
+    <div id="hanoi-animation">
+        <div class="tower" id="tower-1">
+            <div class="pole"></div>
+            <div class="base">1</div>
+        </div>
+        <div class="tower" id="tower-2">
+            <div class="pole"></div>
+            <div class="base">2</div>
+        </div>
+        <div class="tower" id="tower-3">
+            <div class="pole"></div>
+            <div class="base">3</div>
+        </div>
+        <div id="disks-area">
+            </div>
+    </div>
+    <div id="controls">
+        <button id="reset-button">Reiniciar</button>
+        <button id="play-pause-button">Executar</button>
+        <button id="next-button">Avançar</button> 
+        <span id="move-counter">Passo: 0 / {{ moves|length }}</span>
+        <label for="speed">Velocidade:</label>
+        <input type="range" id="speed" min="100" max="2000" value="1000" step="100">
+        <button id="show-moves-button">Mostrar Movimentos</button>
+    </div>
+</div>
+
+<div id="moves-list-container" style="display: none;">
+    <h3>Movimentos ({{ moves|length }}):</h3>
+    <ol id="moves-list">
+        {% for move in moves %}
+        <li>Mover disco da Torre {{ move[0] }} para a Torre {{ move[1] }}</li>
+        {% endfor %}
+    </ol>
+</div>
+
+<a href="{{ url_for('index') }}">Resolver Novamente</a>
+
+<script>
+    const moves = {{ moves|tojson }};
+    const numDisks = {{ disks }};
+    const startTower = {{ start }};
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
